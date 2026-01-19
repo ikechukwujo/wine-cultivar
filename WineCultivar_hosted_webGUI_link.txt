@@ -1,0 +1,6 @@
+Name: Jeremiah Bwala
+Matric Number: 22CG031843
+Machine Learning Algorithm Used: Random Forest Classifier
+Model persistence method used: Joblib
+Live URL of the hosted application: 
+GitHub repository link: 

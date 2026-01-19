@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wine Cultivar Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Wine Origin Predictor</h1>
+            <p>Enter the wine's chemical properties to determine its cultivar.</p>
+        </header>
+
+        <main>
+            <form action="/" method="POST" class="prediction-form">
+                <div class="form-group">
+                    <label for="alcohol">Alcohol</label>
+                    <input type="number" step="0.01" id="alcohol" name="alcohol" required placeholder="e.g., 13.5">
+                </div>
+
+                <div class="form-group">
+                    <label for="flavanoids">Flavanoids</label>
+                    <input type="number" step="0.01" id="flavanoids" name="flavanoids" required placeholder="e.g., 2.5">
+                </div>
+
+                <div class="form-group">
+                    <label for="color_intensity">Color Intensity</label>
+                    <input type="number" step="0.01" id="color_intensity" name="color_intensity" required placeholder="e.g., 4.8">
+                </div>
+
+                <div class="form-group">
+                    <label for="hue">Hue</label>
+                    <input type="number" step="0.01" id="hue" name="hue" required placeholder="e.g., 1.0">
+                </div>
+
+                <div class="form-group">
+                    <label for="od280">OD280/OD315 of Diluted Wines</label>
+                    <input type="number" step="0.01" id="od280" name="od280" required placeholder="e.g., 3.2">
+                </div>
+
+                <div class="form-group">
+                    <label for="proline">Proline</label>
+                    <input type="number" step="0.01" id="proline" name="proline" required placeholder="e.g., 750">
+                </div>
+
+                <button type="submit" class="submit-btn">Predict Cultivar</button>
+            </form>
+
+            {% if prediction_text %}
+            <div class="result-container">
+                <h2>{{ prediction_text }}</h2>
+            </div>
+            {% endif %}
+        </main>
+
+        <footer>
+            <p>Develop by Onuegbu Udochukwu (22CG031937)</p>
+        </footer>
+    </div>
+</body>
+</html>
