@@ -5,59 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wine Cultivar Predictor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Wine Origin Predictor</h1>
-            <p>Enter the wine's chemical properties to determine its cultivar.</p>
+            <h1><i class="fas fa-wine-glass-alt"></i> Wine Origin</h1>
+            <p>Predict the cultivar based on chemical signature</p>
         </header>
 
         <main>
             <form action="/" method="POST" class="prediction-form">
+                <!-- Alcohol -->
                 <div class="form-group">
                     <label for="alcohol">Alcohol</label>
-                    <input type="number" step="0.01" id="alcohol" name="alcohol" required placeholder="e.g., 13.5">
+                    <div class="input-wrapper">
+                        <i class="fas fa-percent"></i>
+                        <input type="number" step="0.01" id="alcohol" name="alcohol" required 
+                               placeholder="13.5" value="{{ start_values.alcohol if start_values else '' }}">
+                    </div>
                 </div>
 
+                <!-- Flavanoids -->
                 <div class="form-group">
                     <label for="flavanoids">Flavanoids</label>
-                    <input type="number" step="0.01" id="flavanoids" name="flavanoids" required placeholder="e.g., 2.5">
+                    <div class="input-wrapper">
+                        <i class="fas fa-atom"></i>
+                        <input type="number" step="0.01" id="flavanoids" name="flavanoids" required 
+                               placeholder="2.5" value="{{ start_values.flavanoids if start_values else '' }}">
+                    </div>
                 </div>
 
+                <!-- Color Intensity -->
                 <div class="form-group">
                     <label for="color_intensity">Color Intensity</label>
-                    <input type="number" step="0.01" id="color_intensity" name="color_intensity" required placeholder="e.g., 4.8">
+                    <div class="input-wrapper">
+                        <i class="fas fa-palette"></i>
+                        <input type="number" step="0.01" id="color_intensity" name="color_intensity" required 
+                               placeholder="4.8" value="{{ start_values.color_intensity if start_values else '' }}">
+                    </div>
                 </div>
 
+                <!-- Hue -->
                 <div class="form-group">
                     <label for="hue">Hue</label>
-                    <input type="number" step="0.01" id="hue" name="hue" required placeholder="e.g., 1.0">
+                    <div class="input-wrapper">
+                        <i class="fas fa-adjust"></i>
+                        <input type="number" step="0.01" id="hue" name="hue" required 
+                               placeholder="1.0" value="{{ start_values.hue if start_values else '' }}">
+                    </div>
                 </div>
 
+                <!-- OD280 -->
                 <div class="form-group">
-                    <label for="od280">OD280/OD315 of Diluted Wines</label>
-                    <input type="number" step="0.01" id="od280" name="od280" required placeholder="e.g., 3.2">
+                    <label for="od280">OD280 / OD315</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-flask"></i>
+                        <input type="number" step="0.01" id="od280" name="od280" required 
+                               placeholder="3.2" value="{{ start_values.od280 if start_values else '' }}">
+                    </div>
                 </div>
 
+                <!-- Proline -->
                 <div class="form-group">
                     <label for="proline">Proline</label>
-                    <input type="number" step="0.01" id="proline" name="proline" required placeholder="e.g., 750">
+                    <div class="input-wrapper">
+                        <i class="fas fa-dna"></i>
+                        <input type="number" step="0.01" id="proline" name="proline" required 
+                               placeholder="750" value="{{ start_values.proline if start_values else '' }}">
+                    </div>
                 </div>
 
-                <button type="submit" class="submit-btn">Predict Cultivar</button>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-search-location"></i> Identify Cultivar
+                </button>
             </form>
 
             {% if prediction_text %}
             <div class="result-container">
-                <h2>{{ prediction_text }}</h2>
+                {% if "Error" in prediction_text %}
+                    <h2>{{ prediction_text }}</h2>
+                {% else %}
+                    <!-- Extracting just the result part if needed, or styling the whole text -->
+                    <h2>Predicted Origin</h2>
+                    <span class="result-highlight">{{ prediction_text.replace('Predicted Origin: ', '') }}</span>
+                {% endif %}
             </div>
             {% endif %}
         </main>
 
         <footer>
-            <p>Develop by Onuegbu Udochukwu (22CG031937)</p>
+            <p>Developed by Jeremiah Bwala (22CG031843)</p>
         </footer>
     </div>
 </body>

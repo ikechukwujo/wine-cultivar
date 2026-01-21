@@ -1,12 +1,16 @@
 :root {
-    --primary-color: #722F37;
-    /* Wine red */
-    --secondary-color: #9e4755;
-    --background-color: #f9f5f6;
-    --text-color: #2c1a1d;
-    --card-bg: #ffffff;
-    --input-bg: #fdfbfb;
-    --border-color: #e0d0d2;
+    --primary-color: #5d1a22; /* Deep Burgundy */
+    --accent-color: #d4af37; /* Gold */
+    --background-dark: #121212;
+    --card-bg: rgba(30, 30, 30, 0.7);
+    --text-light: #f5f5f5;
+    --text-muted: #aaa;
+    --input-bg: rgba(255, 255, 255, 0.05);
+    --border-color: rgba(212, 175, 55, 0.3);
+    
+    --glass-blur: blur(12px);
+    --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --font-main: 'Outfit', sans-serif;
 }
 
 * {
@@ -16,9 +20,12 @@
 }
 
 body {
-    font-family: 'Outfit', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
+    font-family: var(--font-main);
+    background-color: var(--background-dark);
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(93, 26, 34, 0.4) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 20%);
+    color: var(--text-light);
     line-height: 1.6;
     display: flex;
     justify-content: center;
@@ -28,33 +35,52 @@ body {
 }
 
 .container {
-    background-color: var(--card-bg);
-    padding: 2.5rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(114, 47, 55, 0.1);
+    background: var(--card-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 3rem;
+    border-radius: 24px;
+    box-shadow: var(--shadow-soft);
     width: 100%;
-    max-width: 600px;
-    transition: transform 0.3s ease;
+    max-width: 700px;
+    position: relative;
+    overflow: hidden;
 }
 
-.container:hover {
-    transform: translateY(-5px);
+/* Golden top border accent */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
 }
 
 header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
 
 h1 {
-    color: var(--primary-color);
-    font-weight: 600;
+    color: var(--text-light);
+    font-weight: 700;
+    font-size: 2.2rem;
     margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+h1 i {
+    color: var(--accent-color);
+    margin-right: 10px;
 }
 
 header p {
-    color: #666;
-    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 300;
 }
 
 .prediction-form {
@@ -63,8 +89,7 @@ header p {
     gap: 1.5rem;
 }
 
-/* Make single column on small screens */
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     .prediction-form {
         grid-template-columns: 1fr;
     }
@@ -73,47 +98,82 @@ header p {
 .form-group {
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 label {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
     margin-bottom: 0.5rem;
-    color: var(--text-color);
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    transition: color 0.3s;
 }
 
 input {
-    padding: 0.8rem;
+    width: 100%;
+    padding: 1rem 1rem 1rem 2.8rem;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 12px;
     background-color: var(--input-bg);
+    color: var(--text-light);
     font-family: inherit;
+    font-size: 1rem;
     transition: all 0.3s ease;
 }
 
 input:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(114, 47, 55, 0.1);
+    border-color: var(--accent-color);
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+input:focus + i {
+    color: var(--accent-color);
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
 }
 
 .submit-btn {
     grid-column: 1 / -1;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 1rem;
-    border-radius: 8px;
-    font-size: 1rem;
+    background: linear-gradient(135deg, var(--primary-color), #3e1117);
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.2rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 1rem;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(93, 26, 34, 0.4);
 }
 
 .submit-btn:hover {
-    background-color: var(--secondary-color);
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(93, 26, 34, 0.6);
+    background: linear-gradient(135deg, #74202a, #4a0404);
 }
 
 .submit-btn:active {
@@ -121,36 +181,46 @@ input:focus {
 }
 
 .result-container {
+    grid-column: 1 / -1;
     margin-top: 2rem;
     padding: 1.5rem;
-    background-color: #f3e6e8;
+    background: linear-gradient(90deg, rgba(93, 26, 34, 0.2), rgba(212, 175, 55, 0.1));
+    border-left: 4px solid var(--accent-color);
     border-radius: 8px;
     text-align: center;
-    border-left: 5px solid var(--primary-color);
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .result-container h2 {
-    color: var(--primary-color);
-    font-size: 1.2rem;
-    font-weight: 600;
+    color: var(--text-light);
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+
+.result-highlight {
+    color: var(--accent-color);
+    font-weight: 700;
+    display: block;
+    font-size: 1.8rem;
+    margin-top: 0.5rem;
+    text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
 }
 
 footer {
     text-align: center;
-    margin-top: 2.5rem;
+    margin-top: 3rem;
     font-size: 0.8rem;
-    color: #888;
-    border-top: 1px solid var(--border-color);
-    padding-top: 1rem;
+    color: rgba(255, 255, 255, 0.3);
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(20px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);

@@ -40,11 +40,8 @@ Ensure you have Python installed.
    pip install -r requirements.txt
    ```
 
-3. **Train the Model**:
-   If the model files (`model/wine_cultivar_model.pkl`, `model/scaler.pkl`) are missing or need updating, run:
-   ```bash
-   python model/model_building.py
-   ```
+3. **Verify Model Files**:
+   Ensure that the model files (`model/wine_cultivar_model.pkl`, `model/scaler.pkl`) are present in the `model/` directory. These files were trained using Google Colab.
 
 4. **Run the Application**:
    ```bash
@@ -65,5 +62,5 @@ Ensure you have Python installed.
 - `requirements.txt`: Python dependencies.
 
 ## Author
-**Onuegbu Udochukwu**
+**Jeremiah Bwala (22CG031843)**
 *Wine Cultivar Prediction Project*

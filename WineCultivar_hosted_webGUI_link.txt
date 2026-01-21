@@ -1,6 +1,6 @@
-Name: Jeremiah Bwala
-Matric Number: 22CG031843
+Name: Nwuba Ikechukwu
+Matric Number: 22CG031893
 Machine Learning Algorithm Used: Random Forest Classifier
 Model persistence method used: Joblib
-Live URL of the hosted application: 
-GitHub repository link: 
+Live URL of the hosted application: https://wine-cultivar-hc2u.onrender.com
+GitHub repository link: https://github.com/ikechukwujo/wine-cultivar

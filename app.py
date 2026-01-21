@@ -1,30 +1,17 @@
 from flask import Flask, render_template, request
-import joblib
-import numpy as np
-import os
+from model.predictor import WinePredictor
 
 app = Flask(__name__)
 
-# Load Model and Scaler of wine cultivar
-model_path = os.path.join(os.path.dirname(__file__), 'model', 'wine_cultivar_model.pkl')
-scaler_path = os.path.join(os.path.dirname(__file__), 'model', 'scaler.pkl')
-
-try:
-    model = joblib.load(model_path)
-    scaler = joblib.load(scaler_path)
-    print("Model and Scaler loaded successfully.")
-except Exception as e:
-    print(f"Error loading model/scaler: {e}")
-    model = None
-    scaler = None
+# Initialize Predictor
+predictor = WinePredictor()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     prediction_text = ""
-    if request.method == 'POST':
-        if model is None or scaler is None:
-             return render_template('index.html', prediction_text="Error: Model not loaded.")
+    start_values = {}
 
+    if request.method == 'POST':
         try:
             # Get input values from form
             alcohol = float(request.form['alcohol'])
@@ -34,28 +21,28 @@ def index():
             od280 = float(request.form['od280'])
             proline = float(request.form['proline'])
 
-            # Create array for prediction
-            features = np.array([[alcohol, flavanoids, color_intensity, hue, od280, proline]])
-            
-            # Scale features
-            features_scaled = scaler.transform(features)
+            # Store values to repopulate form
+            start_values = {
+                'alcohol': alcohol,
+                'flavanoids': flavanoids,
+                'color_intensity': color_intensity,
+                'hue': hue,
+                'od280': od280,
+                'proline': proline
+            }
 
-            # Predict
-            prediction = model.predict(features_scaled)
-            cultivar_index = prediction[0]
+            # Create features list
+            features = [alcohol, flavanoids, color_intensity, hue, od280, proline]
             
-            # Cultivar names (from dataset)
-            cultivar_names = {0: "Cultivar A", 1: "Cultivar B", 2: "Cultivar C"}
-            result = cultivar_names.get(cultivar_index, f"Class {cultivar_index}")
-
-            prediction_text = f"Predicted Origin: {result}"
+            # Predict using the class
+            prediction_text = predictor.predict(features)
 
         except ValueError:
             prediction_text = "Error: Invalid input. Please enter numeric values."
         except Exception as e:
             prediction_text = f"Error: {str(e)}"
 
-    return render_template('index.html', prediction_text=prediction_text)
+    return render_template('index.html', prediction_text=prediction_text, start_values=start_values)
 
 if __name__ == '__main__':
     app.run(debug=True)
