@@ -62,5 +62,5 @@ Ensure you have Python installed.
 - `requirements.txt`: Python dependencies.
 
 ## Author
-**Jeremiah Bwala (22CG031843)**
+**Nwuba Ikechukwu (22CG031893)**
 *Wine Cultivar Prediction Project*
